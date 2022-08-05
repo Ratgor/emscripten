@@ -2202,8 +2202,10 @@ def phase_linker_setup(options, state, newargs, user_settings):
 
   # TODO: Move this into the library JS file once it becomes possible.
   # See https://github.com/emscripten-core/emscripten/pull/15982
-  if settings.INCLUDE_FULL_LIBRARY and not settings.DISABLE_EXCEPTION_CATCHING:
-    settings.EXPORTED_FUNCTIONS += ['___get_exception_message', '_free']
+  if settings.INCLUDE_FULL_LIBRARY:
+    settings.EXPORTED_FUNCTIONS += ['_getTempRet0', '_setTempRet0']
+    if not settings.DISABLE_EXCEPTION_CATCHING:
+      settings.EXPORTED_FUNCTIONS += ['___get_exception_message', '_free']
 
   if settings.WASM_WORKERS:
     # TODO: After #15982 is resolved, these dependencies can be declared in library_wasm_worker.js
@@ -2374,10 +2376,11 @@ def phase_linker_setup(options, state, newargs, user_settings):
     settings.MEM_INIT_IN_WASM = True
 
   if settings.MAYBE_WASM2JS or settings.AUTODEBUG or settings.LINKABLE:
-    settings.DEFAULT_LIBRARY_FUNCS_TO_INCLUDE += [
-      '$getTempRet0',
-      '$setTempRet0',
-    ]
+    settings.DEFAULT_LIBRARY_FUNCS_TO_INCLUDE += ['$getTempRet0', '$setTempRet0']
+    settings.REQUIRED_EXPORTS += ['getTempRet0', 'setTempRet0']
+
+  if settings.LEGALIZE_JS_FFI:
+    settings.REQUIRED_EXPORTS += ['__get_temp_ret', '__set_temp_ret']
 
   # wasm side modules have suffix .wasm
   if settings.SIDE_MODULE and shared.suffix(target) == '.js':
@@ -2555,6 +2558,8 @@ def phase_linker_setup(options, state, newargs, user_settings):
       # so we include then unconditionally when exceptions are enabled.
       '__cxa_is_pointer_type',
       '__cxa_can_catch',
+      'setTempRet0',
+      'getTempRet0',
 
       # Emscripten exception handling can generate invoke calls, and they call
       # setThrew(). We cannot handle this using deps_info as the invokes are not

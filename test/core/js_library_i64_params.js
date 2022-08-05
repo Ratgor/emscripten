@@ -1,5 +1,5 @@
 TestLibrary = {
-  jscall__deps: i53ConversionDeps,
+  jscall__deps: ['setTempRet0'].concat(i53ConversionDeps),
   jscall__sig: 'ij',
   jscall: function({{{ defineI64Param('foo') }}}) {
     {{{ receiveI64ParamAsI53('foo', `(err('overflow'), ${makeReturn64('42')})`) }}}

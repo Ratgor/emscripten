@@ -311,7 +311,8 @@ class Library:
       else:
         cmd = [shared.EMXX]
 
-      cmd += cflags
+      if ext != '.s':
+        cmd += cflags
       if ext in ('.s', '.S'):
         # TODO(sbc) There is an llvm bug that causes a crash when `-g` is used with
         # assembly files that define wasm globals.
@@ -686,6 +687,7 @@ class libcompiler_rt(MTLibrary, SjLjLibrary):
         'stack_limits.S',
         'emscripten_setjmp.c',
         'emscripten_exception_builtins.c',
+        'emscripten_tempret.s',
         '__trap.c',
       ])
 

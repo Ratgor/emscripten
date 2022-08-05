@@ -7009,6 +7009,7 @@ void* operator new(size_t size) {
 
   def test_EXPORTED_RUNTIME_METHODS(self):
     self.set_setting('DEFAULT_LIBRARY_FUNCS_TO_INCLUDE', ['$dynCall'])
+    self.set_setting('EXPORTED_FUNCTIONS', ['_getTempRet0', '_setTempRet0', '_main'])
     self.do_core_test('EXPORTED_RUNTIME_METHODS.c')
     # test dyncall (and other runtime methods in support.js) can be exported
     self.emcc_args += ['-DEXPORTED']
@@ -9461,6 +9462,7 @@ NODEFS is no longer included by default; build with -lnodefs.js
   def test_js_library_i64_params(self):
     # Tests the defineI64Param and receiveI64ParamAsI53 helpers that are
     # used to recieve i64 argument in syscalls.
+    self.set_setting('EXPORTED_FUNCTIONS', ['_setTempRet0', '_main'])
     self.emcc_args += ['--js-library=' + test_file('core/js_library_i64_params.js')]
     self.do_core_test('js_library_i64_params.c')
 

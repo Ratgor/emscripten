@@ -80,6 +80,8 @@ function runJSify(functionsOnly) {
     LibraryManager.load();
 
     const libFuncsToInclude = DEFAULT_LIBRARY_FUNCS_TO_INCLUDE;
+    //console.error(DEFAULT_LIBRARY_FUNCS_TO_INCLUDE)
+    //console.error(EXPORTED_RUNTIME_METHODS)
     for (const sym of EXPORTED_RUNTIME_METHODS) {
       if ('$' + sym in LibraryManager.library) {
         libFuncsToInclude.push('$' + sym);

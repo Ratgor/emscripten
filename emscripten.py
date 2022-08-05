@@ -637,11 +637,6 @@ def add_standard_wasm_imports(send_items_map):
     if settings.SUPPORT_LONGJMP == 'wasm':
       send_items_map['__c_longjmp'] = '___c_longjmp'
 
-  if settings.MAYBE_WASM2JS or settings.AUTODEBUG or settings.LINKABLE:
-    # legalization of i64 support code may require these in some modes
-    send_items_map['setTempRet0'] = 'setTempRet0'
-    send_items_map['getTempRet0'] = 'getTempRet0'
-
   if settings.AUTODEBUG:
     send_items_map['log_execution'] = '''function(loc) {
       console.log('log_execution ' + loc);
@@ -652,7 +647,7 @@ def add_standard_wasm_imports(send_items_map):
     }'''
     send_items_map['get_i64'] = '''function(loc, index, low, high) {
       console.log('get_i64 ' + [loc, index, low, high]);
-      setTempRet0(high);
+      _setTempRet0(high);
       return low;
     }'''
     send_items_map['get_f32'] = '''function(loc, index, value) {
@@ -677,7 +672,7 @@ def add_standard_wasm_imports(send_items_map):
     }'''
     send_items_map['set_i64'] = '''function(loc, index, low, high) {
       console.log('set_i64 ' + [loc, index, low, high]);
-      setTempRet0(high);
+      _setTempRet0(high);
       return low;
     }'''
     send_items_map['set_f32'] = '''function(loc, index, value) {
@@ -706,7 +701,7 @@ def add_standard_wasm_imports(send_items_map):
     }'''
     send_items_map['load_val_i64'] = '''function(loc, low, high) {
       console.log('load_val_i64 ' + [loc, low, high]);
-      setTempRet0(high);
+      _setTempRet0(high);
       return low;
     }'''
     send_items_map['load_val_f32'] = '''function(loc, value) {
@@ -727,7 +722,7 @@ def add_standard_wasm_imports(send_items_map):
     }'''
     send_items_map['store_val_i64'] = '''function(loc, low, high) {
       console.log('store_val_i64 ' + [loc, low, high]);
-      setTempRet0(high);
+      _setTempRet0(high);
       return low;
     }'''
     send_items_map['store_val_f32'] = '''function(loc, value) {

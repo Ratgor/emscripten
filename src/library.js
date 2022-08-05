@@ -21,28 +21,17 @@
 // new function with an '_', it will not be found.
 
 mergeInto(LibraryManager.library, {
-  // ==========================================================================
-  // getTempRet0/setTempRet0: scratch space handling i64 return
-  //
-  // These are trivial wrappers around runtime functions that make these symbols
-  // available to native code.
-  // ==========================================================================
-
-  $tempRet0: 0,
   $getTempRet0__sig: 'i',
-  $getTempRet0__deps: ['$tempRet0'],
+  $getTempRet0__deps: ['getTempRet0'],
   $getTempRet0: function() {
-    return tempRet0;
+    return _getTempRet0();
   },
 
   $setTempRet0__sig: 'vi',
-  $setTempRet0__deps: ['$tempRet0'],
+  $setTempRet0__deps: ['setTempRet0'],
   $setTempRet0: function(val) {
-    tempRet0 = val;
+    _setTempRet0(val);
   },
-
-  getTempRet0: '$getTempRet0',
-  setTempRet0: '$setTempRet0',
 
   $ptrToString: function(ptr) {
     return '0x' + ptr.toString(16).padStart(8, '0');
@@ -3712,7 +3701,5 @@ DEFAULT_LIBRARY_FUNCS_TO_INCLUDE.push(
   '$ccall',
   '$cwrap',
   '$ExitStatus',
-  '$getTempRet0',
-  '$setTempRet0',
 );
 #endif

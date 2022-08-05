@@ -6796,8 +6796,8 @@ Resolved: "/" => "/"
                       '--pre-js', test_file('return64bit/testbindstart.js'),
                       '--pre-js', test_file('return64bit', bind_js),
                       '--post-js', test_file('return64bit/testbindend.js'),
-                      '-sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=$dynCall',
-                      '-sEXPORTED_FUNCTIONS=_test_return64', '-o', 'test.js', '-O2',
+                      '-sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=$dynCall,$getTempRet0',
+                      '-sEXPORTED_FUNCTIONS=_getTempRet0,_test_return64', '-o', 'test.js', '-O2',
                       '--closure=1', '-g1', '-sWASM_ASYNC_COMPILATION=0'] + args)
 
     # Simple test program to load the test.js binding library and call the binding to the

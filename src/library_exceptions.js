@@ -336,13 +336,13 @@ var LibraryExceptions = {
   // unwinding using 'if' blocks around each function, so the remaining
   // functionality boils down to picking a suitable 'catch' block.
   // We'll do that here, instead, to keep things simpler.
-  __cxa_find_matching_catch__deps: ['$exceptionLast', '$ExceptionInfo', '__resumeException', '__cxa_can_catch'],
+  __cxa_find_matching_catch__deps: ['$exceptionLast', '$ExceptionInfo', '__resumeException', '__cxa_can_catch', 'setTempRet0'],
   //__cxa_find_matching_catch__sig: 'p',
   __cxa_find_matching_catch: function() {
     var thrown = exceptionLast;
     if (!thrown) {
       // just pass through the null ptr
-      setTempRet0(0);
+      _setTempRet0(0);
       return 0;
     }
     var info = new ExceptionInfo(thrown);
@@ -350,7 +350,7 @@ var LibraryExceptions = {
     var thrownType = info.get_type();
     if (!thrownType) {
       // just pass through the thrown ptr
-      setTempRet0(0);
+      _setTempRet0(0);
       return thrown;
     }
     var typeArray = Array.prototype.slice.call(arguments);
@@ -374,11 +374,11 @@ var LibraryExceptions = {
 #if EXCEPTION_DEBUG
         err("  __cxa_find_matching_catch found " + [ptrToString(info.get_adjusted_ptr()), caughtType]);
 #endif
-        setTempRet0(caughtType);
+        _setTempRet0(caughtType);
         return thrown;
       }
     }
-    setTempRet0(thrownType);
+    _setTempRet0(thrownType);
     return thrown;
   },
 

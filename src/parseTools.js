@@ -631,7 +631,7 @@ function makeReturn64(value) {
   const pair = splitI64(value);
   // `return (a, b, c)` in JavaScript will execute `a`, and `b` and return the final
   // element `c`
-  return `(setTempRet0(${pair[1]}), ${pair[0]})`;
+  return `(_setTempRet0(${pair[1]}), ${pair[0]})`;
 }
 
 function makeThrow(what) {
